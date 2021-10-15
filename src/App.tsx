@@ -5,7 +5,10 @@ import "./styles/global.scss";
 
 function App() {
   return (
-    <Home />
+    <BrowserRouter>
+      <Route path="/" exact component={Home}/>
+      <Route path="/rooms/new" component={NewRoom}/>
+    </BrowserRouter>
   );
 }
 
