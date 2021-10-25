@@ -10,7 +10,7 @@ import "../styles/auth.scss";
 export function Home(){
     const history = useHistory()
 
-    function navigateToNewRoom(){
+    function handleCreateRoom(){
         history.push('/rooms/new');
     }
     return (
@@ -23,7 +23,7 @@ export function Home(){
             <main>
                 <div className="main-content">
                     <img src={logoImg} alt="Letmeask" />
-                    <button onClick={navigateToNewRoom} className="create-room">
+                    <button onClick={handleCreateRoom} className="create-room">
                         <img src={googleIconImg} alt="Logo do Google" />
                         Crie sua sala com o Google
                     </button>
