@@ -30,7 +30,7 @@ export function Home(){
                 const user = await signInWithPopup(auth, provider);
             } catch (error){
                 console.log(error.message);
-    }
+            }
         }*/
     }
 
@@ -42,6 +42,7 @@ export function Home(){
                 <p>Tire as dúvidas da sua audiência em tempo real.</p>
             </aside>
             <main>
+                <h1>{value}</h1>
                 <div className="main-content">
                     <img src={logoImg} alt="Letmeask" />
                     <button onClick={handleCreateRoom} className="create-room">
