@@ -7,12 +7,29 @@ import googleIconImg from "../assets/images/google-icon.svg";
 
 import "../styles/auth.scss";
 
+import { auth } from "../services/firebase";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+
 export function Home(){
     const history = useHistory()
 
     function handleCreateRoom(){
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider).then(result=>{
+            console.log(result);
+        });
         history.push('/rooms/new');
+        /*
+        const register = async ()=>{
+            try{
+                const user = await signInWithPopup(auth, provider);
+            } catch (error){
+                console.log(error.message);
     }
+        }*/
+    }
+
     return (
         <div id="page-auth">
             <aside>
