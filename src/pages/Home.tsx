@@ -2,27 +2,22 @@ import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Button } from "../Components/Button";
 
-import { TestContext } from "../App";
-
 import illustrationSvg from "../assets/images/illustration.svg";
 import logoImg from "../assets/images/logo.svg";
 import googleIconImg from "../assets/images/google-icon.svg";
 
 import "../styles/auth.scss";
 
-import { auth } from "../services/firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
+import { AuthContext } from "../App";
 
 export function Home(){
     const history = useHistory()
-    const value = useContext(TestContext);
+    const {user, signInWithGoogle} = useContext(AuthContext)
 
-    function handleCreateRoom(){
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider).then(result=>{
-            console.log(result);
-        });
+    async function handleCreateRoom(){
+        if(!user){
+            await signInWithGoogle();
+        }
         history.push('/rooms/new');
         /*
         const register = async ()=>{
@@ -42,7 +37,6 @@ export function Home(){
                 <p>Tire as dúvidas da sua audiência em tempo real.</p>
             </aside>
             <main>
-                <h1>{value}</h1>
                 <div className="main-content">
                     <img src={logoImg} alt="Letmeask" />
                     <button onClick={handleCreateRoom} className="create-room">
