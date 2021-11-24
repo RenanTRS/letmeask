@@ -1,14 +1,20 @@
 import { useContext } from "react";
 import { useHistory } from "react-router-dom";
+
+/*Components*/
+import { AuthContext } from "../contexts/AuthContexts";
+
+/*Components*/
 import { Button } from "../Components/Button";
 
+/*Assets*/
 import illustrationSvg from "../assets/images/illustration.svg";
 import logoImg from "../assets/images/logo.svg";
 import googleIconImg from "../assets/images/google-icon.svg";
 
+/*Styles*/
 import "../styles/auth.scss";
 
-import { AuthContext } from "../App";
 
 export function Home(){
     const history = useHistory()
@@ -19,14 +25,6 @@ export function Home(){
             await signInWithGoogle();
         }
         history.push('/rooms/new');
-        /*
-        const register = async ()=>{
-            try{
-                const user = await signInWithPopup(auth, provider);
-            } catch (error){
-                console.log(error.message);
-            }
-        }*/
     }
 
     return (

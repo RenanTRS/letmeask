@@ -1,79 +1,21 @@
-import React, { createContext, useState, useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
+import { AuthContextProvider } from './contexts/AuthContexts'
 
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "./services/firebase";
-
-
+/*Pages*/
 import { Home } from "./pages/Home";
 import { NewRoom } from "./pages/NewRoom";
 
+/*Styles*/
 import "./styles/global.scss";
 
-
-type User ={
-  id: string;
-  name: string;
-  avatar: string
-}
-type AuthContextType = {
-  user: User | undefined;
-  signInWithGoogle: () => Promise<void>
-}
-
-export const AuthContext = createContext({} as AuthContextType);
-
 function App() {
-  const [user, setUser] = useState<User>();
-
-  useEffect(()=>{
-    const unsubscribe = auth.onAuthStateChanged(user=>{
-      if(user){
-        const {displayName, photoURL, uid} = user;
-  
-        if(!displayName || !photoURL){
-          throw new Error ('Missing information from Google Account.')
-        }
-  
-        setUser({
-          id: uid,
-          name: displayName,
-          avatar: photoURL
-        });
-      }
-    });
-
-    return () => {
-      unsubscribe();
-    }
-  }, []);
-
-  async function signInWithGoogle(){
-    const provider = new GoogleAuthProvider();
-
-    const result = await signInWithPopup(auth, provider);
-    
-    if(result.user){
-      const {displayName, photoURL, uid} = result.user;
-
-      if(!displayName || !photoURL){
-        throw new Error ('Missing information from Google Account.')
-      }
-
-      setUser({
-        id: uid,
-        name: displayName,
-        avatar: photoURL
-      });
-    }
-  }
 
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{user, signInWithGoogle}}>
-        <Route path="/" exact component={Home}/>
-        <Route path="/rooms/new" component={NewRoom}/>
-      </AuthContext.Provider>
+      <AuthContextProvider>
+          <Route path="/" exact component={Home}/>
+          <Route path="/rooms/new" component={NewRoom}/>
+      </AuthContextProvider>
     </BrowserRouter>
   );
 }
