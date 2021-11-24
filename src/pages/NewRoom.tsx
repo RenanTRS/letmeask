@@ -1,8 +1,7 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-/*Contexts*/
-import { AuthContext } from "../contexts/AuthContexts";
+/*Hooks*/
+import { useAuth } from '../hooks/useAuth';
 
 /*Components*/
 import { Button } from "../Components/Button";
@@ -18,7 +17,7 @@ import "../styles/auth.scss"
 
 export function NewRoom(){
 
-    //const {user} = useContext(AuthContext);
+    //const {user} = useAuth();
 
     return (
         <div id="page-auth">
