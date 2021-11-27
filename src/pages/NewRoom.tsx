@@ -1,7 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { Link } from "react-router-dom";
 import { database } from '../services/firebase';
-import {set, ref} from 'firebase/database';
 
 /*Hooks*/
 import { useAuth } from '../hooks/useAuth';
@@ -31,10 +30,11 @@ export function NewRoom(){
             return;
         }
 
-        const db = database;
-        const dbRef = ref(db);
-        //console.log(dbRef)
-        const firebaseRoom = await set(ref(db, 'rooms/'), {
+        //Cria uma referência
+        const roomRef = database.ref('rooms');
+
+        //Salva no banco
+        const firebaseRoom = await roomRef.push({
             title: newRoom,
             authorId: user?.id
         });
