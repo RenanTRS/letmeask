@@ -2,7 +2,6 @@
 import { useHistory } from "react-router-dom";
 import { useAuth } from '../hooks/useAuth';
 
-
 /*Components*/
 import { Button } from "../Components/Button";
 
@@ -13,7 +12,6 @@ import googleIconImg from "../assets/images/google-icon.svg";
 
 /*Styles*/
 import "../styles/auth.scss";
-
 
 export function Home(){
     const history = useHistory()
