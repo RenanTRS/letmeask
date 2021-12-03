@@ -1,5 +1,46 @@
+import logoImg from '../assets/images/logo.svg';
+
+import { Button } from '../Components/Button';
+import { RoomCode } from '../Components/RoomCode';
+
+import { useParams } from 'react-router-dom';
+
+import '../styles/room.scss';
+
+
+type RoomParams = {
+    id: string;
+}
+
 export function Room(){
+    const params = useParams<RoomParams>();
+    const roomId = params.id;
+
+
     return (
-        <h1>Room</h1>
+        <div id="page-room">
+            <header>
+                <div className='content'>
+                    <img src={logoImg} alt="Letmeask" />
+                    <RoomCode code={roomId} />
+                </div>
+            </header>
+
+            <main>
+                <div className='room-title'>
+                    <h1>Sala React</h1>
+                    <span>4 perguntas</span>
+                </div>
+
+                <form>
+                    <textarea placeholder='O que você quer perguntar?'></textarea>
+
+                    <div className='form-footer'>
+                        <span>Para fazer uma pergunta, <button>faça seu login</button>.</span>
+                        <Button type="submit">Enviar pergunta</Button>
+                    </div>
+                </form>
+            </main>
+        </div>
     );
 }
