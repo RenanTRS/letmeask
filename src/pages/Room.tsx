@@ -80,8 +80,16 @@ export function Room(){
                         value={newQuestion}
                     />
 
+                    {/*Verifica se o usuário está atutenticado ou não usando if ternário*/}
                     <div className='form-footer'>
-                        <span>Para fazer uma pergunta, <button>faça seu login</button>.</span>
+                        { user ? (
+                            <div className='user-info'>
+                                <img src={user.avatar} alt={user.name} />
+                                <span>{user.name}</span>
+                            </div>
+                        ) : (
+                            <span>Para fazer uma pergunta, <button>faça seu login</button>.</span>
+                        )}
                         {/*Botão fica disbled caso não tenha usuário*/}
                         <Button type="submit" disabled={!user}>Enviar pergunta</Button>
                     </div>
