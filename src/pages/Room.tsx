@@ -55,7 +55,7 @@ export function Room(){
         //Define referência do caminho ao database
         const roomRef = database.ref(`rooms/${roomId}`);
 
-        //Event Listener do firebase
+        //Event Listener do firebase - pega os dados da database
         roomRef.on('value', room => {
             const databaseRoom = room.val();
             const firebaseQuestion: FirebaseQuestions = databaseRoom.questions ?? {};
