@@ -5,35 +5,14 @@ import { RoomCode } from '../Components/RoomCode';
 
 import { useParams } from 'react-router-dom';
 
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 import '../styles/room.scss';
 import { useAuth } from '../hooks/useAuth';
 
 import {database} from '../services/firebase';
 import { Question } from '../Components/Question';
-
-
-type FirebaseQuestions = Record<string, {
-    author: {
-        name: string;
-        avatar: string;
-    }
-    content: string;
-    isAnswered: boolean;
-    isHighlighted: boolean;
-}>
-
-type QuestionType = {
-    id: string;
-    author: {
-        name: string;
-        avatar: string;
-    }
-    content: string;
-    isAnswered: boolean;
-    isHighlighted: boolean;
-}
+import { useRoom } from '../hooks/useRoom';
 
 type RoomParams = {
     id: string;
@@ -47,34 +26,8 @@ export function Room(){
     const {user} = useAuth();
 
     const [newQuestion, setNewQuestion] = useState('');
-    const [questions, setQuestions] = useState<QuestionType[]>([]);
-    const [title, setTitle] = useState('');
-    
     const roomId = params.id;
-    
-    useEffect(() => {
-        //Define referência do caminho ao database
-        const roomRef = database.ref(`rooms/${roomId}`);
-
-        //Event Listener do firebase - pega os dados da database
-        roomRef.on('value', room => {
-            const databaseRoom = room.val();
-            const firebaseQuestion: FirebaseQuestions = databaseRoom.questions ?? {};
-            const parseQuestion = Object.entries(firebaseQuestion).map(([key, value]) => {
-                return {
-                    id: key,
-                    content: value.content,
-                    author: value.author,
-                    isHighlighted: value.isHighlighted,
-                    isAnswered: value.isAnswered,
-                }
-            });
-            //console.log(parseQuestion);
-            setTitle(databaseRoom.title);
-            setQuestions(parseQuestion);
-        });
-    }, [roomId]);
-
+    const {questions, title} = useRoom(roomId)
 
     async function handleSendQuestion(event: FormEvent){
         event.preventDefault();
