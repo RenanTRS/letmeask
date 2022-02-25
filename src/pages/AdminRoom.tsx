@@ -5,12 +5,9 @@ import { RoomCode } from '../Components/RoomCode';
 
 import { useParams } from 'react-router-dom';
 
-import { FormEvent, useState } from 'react';
-
 import '../styles/room.scss';
-import { useAuth } from '../hooks/useAuth';
+//import { useAuth } from '../hooks/useAuth';
 
-import {database} from '../services/firebase';
 import { Question } from '../Components/Question';
 import { useRoom } from '../hooks/useRoom';
 
@@ -23,41 +20,10 @@ export function AdminRoom(){
     const params = useParams<RoomParams>();
     
     //Pega o objeto user do hook
-    const {user} = useAuth();
+    //const {user} = useAuth();
 
-    const [newQuestion, setNewQuestion] = useState('');
     const roomId = params.id;
     const {questions, title} = useRoom(roomId)
-
-    async function handleSendQuestion(event: FormEvent){
-        event.preventDefault();
-
-        //Se caso for vazio
-        if(newQuestion.trim() === ''){
-            return;
-        }
-        //Se caso o usuário não for autenticado
-        if(!user){
-            throw new Error('You must be logged in.');
-        }
-
-        //Objeto contendo dados da pergunta
-        const question = {
-            content: newQuestion, //pergunta
-            author: {
-                name: user.name, //nome do usuário
-                avatar: user.avatar //foto do usuáior
-            },
-            isHighLighted: false, //se está sendo respondida neste momento
-            isAnswered: false //se já foi respondida
-        }
-
-        //Salva no banco, pelo caminho rooms/o id da sala/pergunta
-        await database.ref(`rooms/${roomId}/questions`).push(question);
-
-        //Limpa o textarea
-        setNewQuestion('');
-    }
 
 
     return (
