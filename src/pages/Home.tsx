@@ -44,10 +44,13 @@ export function Home(){
                 alert('Room does not exists.');
                 return;
             }
-
+            //Se sala estiver fechada ele impede de abrir
+            if(room.endedAt){
+                alert('Room already closed.')
+                return
+            }
             history.push(`/rooms/${roomCode}`);
         });
-        //console.log(roomRef);
     }
 
     return (

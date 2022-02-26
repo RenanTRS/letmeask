@@ -3,7 +3,7 @@ import logoImg from '../assets/images/logo.svg';
 import { Button } from '../Components/Button';
 import { RoomCode } from '../Components/RoomCode';
 
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import '../styles/room.scss';
 //import { useAuth } from '../hooks/useAuth';
@@ -17,6 +17,7 @@ type RoomParams = {
 }
 
 export function AdminRoom(){
+    const history = useHistory()
     //Pega o parâmetro id da rota
     const params = useParams<RoomParams>();
     
@@ -26,6 +27,14 @@ export function AdminRoom(){
     const roomId = params.id;
     const {questions, title} = useRoom(roomId)
 
+    async function handleEndRoom(){
+        //Encerra a sala
+        await database.ref(`rooms/${roomId}`).update({
+            endedAt: new Date()
+        })
+
+        history.push('/')
+    }
     async function handleDeleteQuestion(questionId: string){
         if(window.confirm('Você tem certeza que deseja excluir esta pergunta?')){
             await database.ref(`rooms/${roomId}/questions/${questionId}`).remove()
@@ -38,7 +47,7 @@ export function AdminRoom(){
                     <img src={logoImg} alt="Letmeask" />
                     <div>
                         <RoomCode code={roomId} />
-                        <Button isOutlined>Encerrar sala</Button>
+                        <Button isOutlined onClick={handleEndRoom}>Encerrar sala</Button>
                     </div>
                 </div>
             </header>
